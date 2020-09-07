@@ -7,7 +7,15 @@
             <i class="fa fa-user-edit"></i>
           </div>
           <h3 class="title">User Login</h3>
-          <form #authForm="ngForm" class="form-horizontal" (ngSubmit)="onSubmit(authForm)">
+          <div class="alert alert-danger" *ngIf="error">
+            <p>
+              {{error}}
+            </p>
+          </div>
+          <div *ngIf="isLoading" style="text-align: center">
+            <app-loading-spinner></app-loading-spinner>
+          </div>
+          <form #authForm="ngForm" class="form-horizontal" (ngSubmit)="onSubmit(authForm)" *ngIf="!isLoading">
             <div class="form-group">
               <span class="input-icon"><i class="fa fa-user"></i></span>
               <input class="form-control" type="email" placeholder="Username" ngModel name="email" required email>
@@ -17,9 +25,9 @@
               <input class="form-control" type="password" placeholder="Password" ngModel name="password" required password minlength="6">
             </div>
             <span class="forgot-pass"><a href="#">Forgot Password ?</a></span>
-            <button class="btn signin" (click)="login()" [disabled]="!authForm.valid">Login</button>
+            <button class="btn signin" type="submit" [disabled]="!authForm.valid"> {{isLoginMode ? 'Login' : 'Sing Up'}} </button>
           </form>
-          <span class="user-signup">Don't Have an Account? <a href="#">Create Now !</a></span>
+          <span class="user-signup">Switch to <a type="button" (click)="onSwitchMode()">{{isLoginMode ? 'Sing Up' : 'Login'}}</a></span>
         </div>
       </div>
     </div>
